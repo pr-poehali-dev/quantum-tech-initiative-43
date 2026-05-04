@@ -29,7 +29,8 @@ export default function Overlay() {
           transition={{ duration: 1, delay: 1.5 }}
           className="font-sans text-xs text-white/50 tracking-widest uppercase"
         >
-          Перетащи или используй стрелки для навигации
+          <span className="md:hidden">Свайпай для навигации</span>
+          <span className="hidden md:inline">Перетащи или используй стрелки для навигации</span>
         </motion.p>
         <motion.div
           initial={{ scaleX: 0 }}
