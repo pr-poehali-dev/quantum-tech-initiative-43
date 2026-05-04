@@ -47,9 +47,29 @@ interface FloatingImageProps {
   rotation: number
 }
 
+const floatParams = [
+  { xSpeed: 0.3, ySpeed: 0.5, xAmp: 0.18, yAmp: 0.14, phase: 0 },
+  { xSpeed: 0.4, ySpeed: 0.35, xAmp: 0.12, yAmp: 0.2, phase: 1.1 },
+  { xSpeed: 0.25, ySpeed: 0.6, xAmp: 0.22, yAmp: 0.1, phase: 2.3 },
+  { xSpeed: 0.5, ySpeed: 0.28, xAmp: 0.14, yAmp: 0.18, phase: 0.7 },
+  { xSpeed: 0.35, ySpeed: 0.45, xAmp: 0.2, yAmp: 0.15, phase: 3.1 },
+  { xSpeed: 0.28, ySpeed: 0.55, xAmp: 0.16, yAmp: 0.22, phase: 1.8 },
+  { xSpeed: 0.45, ySpeed: 0.32, xAmp: 0.1, yAmp: 0.17, phase: 4.2 },
+  { xSpeed: 0.32, ySpeed: 0.48, xAmp: 0.24, yAmp: 0.12, phase: 2.6 },
+  { xSpeed: 0.38, ySpeed: 0.42, xAmp: 0.15, yAmp: 0.19, phase: 0.4 },
+  { xSpeed: 0.22, ySpeed: 0.58, xAmp: 0.19, yAmp: 0.13, phase: 3.7 },
+  { xSpeed: 0.48, ySpeed: 0.26, xAmp: 0.13, yAmp: 0.21, phase: 1.5 },
+  { xSpeed: 0.3, ySpeed: 0.52, xAmp: 0.21, yAmp: 0.16, phase: 5.1 },
+  { xSpeed: 0.42, ySpeed: 0.38, xAmp: 0.17, yAmp: 0.11, phase: 2.0 },
+  { xSpeed: 0.26, ySpeed: 0.62, xAmp: 0.11, yAmp: 0.23, phase: 0.9 },
+  { xSpeed: 0.55, ySpeed: 0.3, xAmp: 0.23, yAmp: 0.14, phase: 4.6 },
+  { xSpeed: 0.36, ySpeed: 0.44, xAmp: 0.16, yAmp: 0.18, phase: 3.3 },
+]
+
 function FloatingImage({ texture, index, rotation }: FloatingImageProps) {
   const meshRef = useRef<THREE.Mesh>(null)
   const config = imagePositions[index]
+  const fp = floatParams[index]
 
   useFrame((state) => {
     if (!meshRef.current) return
@@ -58,7 +78,8 @@ function FloatingImage({ texture, index, rotation }: FloatingImageProps) {
     meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, targetRotY, 0.12)
 
     const time = state.clock.getElapsedTime()
-    meshRef.current.position.y = config.pos[1] + Math.sin(time * 0.5 + index) * 0.1
+    meshRef.current.position.x = config.pos[0] + Math.sin(time * fp.xSpeed + fp.phase) * fp.xAmp
+    meshRef.current.position.y = config.pos[1] + Math.sin(time * fp.ySpeed + fp.phase + 1) * fp.yAmp
   })
 
   return (
